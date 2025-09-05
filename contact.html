@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SmartQR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">SmartQR</div>
+        <div class="nav-links">
+            <button id="themeToggle" class="theme-toggle">🌙</button>
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="contact.html" class="nav-link active">Contact</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="page-card">
+            <div class="page-hero">
+                <h1 class="page-title">Get In Touch</h1>
+                <p class="page-subtitle">We'd love to hear from you</p>
+            </div>
+            
+            <div class="contact-layout">
+                <div class="contact-cards">
+                    <div class="contact-method">
+                        <div class="contact-icon">📧</div>
+                        <h3>Email</h3>
+                        <p>Drop us a line anytime</p>
+                        <a href="mailto:abhimanyu@smartqr.com" class="contact-link">abhimanyu@smartqr.com</a>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">💬</div>
+                        <h3>Support</h3>
+                        <p>Technical help & feature requests</p>
+                        <a href="mailto:support@smartqr.com" class="contact-link">support@smartqr.com</a>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-icon">🚀</div>
+                        <h3>Developer</h3>
+                        <p>Abhimanyu Vaishnav</p>
+                        <span class="contact-link">Full Stack Developer</span>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <div class="form-header">
+                        <h2>Send Message</h2>
+                        <p>Fill out the form below and we'll get back to you soon</p>
+                    </div>
+                    
+                    <form id="contactForm" class="modern-form">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <input type="text" id="name" placeholder="Your Name" required>
+                                <label for="name">Name</label>
+                            </div>
+                            <div class="form-field">
+                                <input type="email" id="email" placeholder="your@email.com" required>
+                                <label for="email">Email</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <input type="text" id="subject" placeholder="What's this about?" required>
+                            <label for="subject">Subject</label>
+                        </div>
+                        
+                        <div class="form-field">
+                            <textarea id="message" placeholder="Tell us more..." rows="5" required></textarea>
+                            <label for="message">Message</label>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">
+                            <span>Send Message</span>
+                            <div class="button-icon">✈️</div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <a href="index.html" class="cta-button secondary">Back to Generator</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const button = this.querySelector('.submit-button');
+            button.innerHTML = '<span>Sending...</span><div class="button-icon">⏳</div>';
+            
+            setTimeout(() => {
+                button.innerHTML = '<span>Message Sent!</span><div class="button-icon">✅</div>';
+                this.reset();
+                
+                setTimeout(() => {
+                    button.innerHTML = '<span>Send Message</span><div class="button-icon">✈️</div>';
+                }, 2000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
