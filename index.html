@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">SmartQR</div>
+        <div class="nav-links">
+            <a href="#about" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <span class="logo-text">Smart<span class="logo-accent">QR</span></span>
+                <p class="logo-subtitle">Premium QR Code Generator</p>
+            </div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="text">Text</button>
+                <button class="tab-btn" data-tab="url">URL</button>
+                <button class="tab-btn" data-tab="location">Location</button>
+                <button class="tab-btn" data-tab="contact">Contact</button>
+                <button class="tab-btn" data-tab="wifi">WiFi</button>
+            </div>
+            <div class="input-section">
+                <div class="tab-content active" id="text-tab">
+                    <textarea id="textInput" placeholder="Enter your text here..."></textarea>
+                </div>
+                <div class="tab-content" id="url-tab">
+                    <input type="url" id="urlInput" placeholder="https://example.com">
+                </div>
+                <div class="tab-content" id="location-tab">
+                    <input type="text" id="latInput" placeholder="Latitude">
+                    <input type="text" id="lngInput" placeholder="Longitude">
+                </div>
+                <div class="tab-content" id="contact-tab">
+                    <input type="text" id="nameInput" placeholder="Full Name">
+                    <input type="tel" id="phoneInput" placeholder="Phone Number">
+                    <input type="email" id="emailInput" placeholder="Email Address">
+                </div>
+                <div class="tab-content" id="wifi-tab">
+                    <input type="text" id="ssidInput" placeholder="WiFi Network Name">
+                    <input type="password" id="passwordInput" placeholder="WiFi Password">
+                    <select id="securityInput">
+                        <option value="WPA">WPA/WPA2</option>
+                        <option value="WEP">WEP</option>
+                        <option value="nopass">No Password</option>
+                    </select>
+                </div>
+                <button id="generateBtn">Generate QR Code</button>
+            </div>
+            <div class="qr-section">
+                <div id="qrcode"></div>
+                <button id="downloadBtn" class="download-btn" style="display: none;">Download QR Code</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        const generateBtn = document.getElementById('generateBtn');
+        const qrcodeDiv = document.getElementById('qrcode');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        let activeTab = 'text';
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                activeTab = btn.dataset.tab;
+                document.getElementById(`${activeTab}-tab`).classList.add('active');
+            });
+        });
+
+        generateBtn.addEventListener('click', generateQR);
+
+        function generateQR() {
+            let qrData = '';
+            
+            switch(activeTab) {
+                case 'text':
+                    qrData = document.getElementById('textInput').value.trim();
+                    break;
+                case 'url':
+                    qrData = document.getElementById('urlInput').value.trim();
+                    break;
+                case 'location':
+                    const lat = document.getElementById('latInput').value.trim();
+                    const lng = document.getElementById('lngInput').value.trim();
+                    if (lat && lng) qrData = `geo:${lat},${lng}`;
+                    break;
+                case 'contact':
+                    const name = document.getElementById('nameInput').value.trim();
+                    const phone = document.getElementById('phoneInput').value.trim();
+                    const email = document.getElementById('emailInput').value.trim();
+                    qrData = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL:${phone}\nEMAIL:${email}\nEND:VCARD`;
+                    break;
+                case 'wifi':
+                    const ssid = document.getElementById('ssidInput').value.trim();
+                    const password = document.getElementById('passwordInput').value.trim();
+                    const security = document.getElementById('securityInput').value;
+                    qrData = `WIFI:T:${security};S:${ssid};P:${password};;`;
+                    break;
+            }
+            
+            if (!qrData) return;
+
+            qrcodeDiv.innerHTML = '';
+            QRCode.toCanvas(qrData, { width: 256, margin: 2 }, (err, canvas) => {
+                if (err) return;
+                qrcodeDiv.appendChild(canvas);
+                downloadBtn.style.display = 'block';
+                
+                downloadBtn.onclick = () => {
+                    const link = document.createElement('a');
+                    link.download = 'qrcode.png';
+                    link.href = canvas.toDataURL();
+                    link.click();
+                };
+            });
+        }
+    </script>
+</body>
+</html>
