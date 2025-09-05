@@ -139,8 +139,8 @@ Give a ⭐️ if this project helped you!
 
 ## 📞 Contact
 
-- **Email**: abhimanyu@smartqr.com
-- **Support**: support@smartqr.com
+- **Email**: abhimanyuvaishnav2024@gmail.com
+- **GitHub**: https://github.com/Abhimanyu-Vaishnav
 
 ---
 
